@@ -39,7 +39,6 @@ include += settings/automacro.txt
 include += settings/spellslots.txt
 
 # Font Settings
-include += settings/font/customFont.txt
 include += settings/font/size.txt
 
 # Character dump

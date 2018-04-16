@@ -1,5 +1,5 @@
 # Got suggestions/improvements?
-# https://github.com/HilariousDeathArtist/DCSSConfigFile
+# https://github.com/void-ow/void-crawl-config
 
 # Ready function
 # OpenSkills - opens skills at the start of the game

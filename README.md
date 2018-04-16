@@ -10,8 +10,12 @@ File loading every other config file.
 Allows for enabling/disabling specific parts of the config
 ### 1. [Colors for items](../master/config/colors/items.txt)
 Adds color codes for items, depending on their usefullness
+
+Based on HDA's, updated for 0.21
 ### 2. [Colors for messages](../master/config/colors/messages.txt)
 Adds color coding for messages, depending on their usage/importance
+
+Copy of HDA's
 ### 3. [Damage Log](../master/config/scripts/damage.txt)
 Adds per-turn damage log, displaying changes in HP, Mana and XP
 ### 4. [Open Skills](../master/config/scripts/openSkills.txt)

@@ -1,0 +1,40 @@
+# Initials
+tile_skip_title = true
+tile_layout_priority = minimap, spell, ability, inventory
+default_manual_training = true
+
+# Butchery
+: if you.race() == "Ghoul" or you.race() == "Troll" then
+auto_butcher = engorged
+: else
+auto_butcher = hungry
+: end
+#WARNING TO KEYPAD USERS: The number 7 is mapped to the letter 'y'
+easy_confirm = all
+confirm_butcher = never
+easy_eat_chunks = true
+auto_eat_chunks = true
+auto_drop_chunks = yes
+easy_eat_contaminated = true
+
+# Interface
+
+msg_min_height=10
+msg_max_height=14
+
+allow_self_target = prompt
+sort_menus = true
+equip_unequip = true
+
+show_more = false
+small_more = true
+show_newturn_mark = true
+
+show_game_turns = true
+
+tile_show_demon_tier = true
+
+# Colors
+hp_colour = 100:green, 99:lightgrey, 75:yellow, 50:lightred, 25:red
+mp_colour = 100:green, 99:lightgrey, 75:yellow, 50:lightred, 25:red
+stat_colour = 3:red, 7:lightred

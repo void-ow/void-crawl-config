@@ -1,0 +1,202 @@
+# Ask Void to fix things
+
+# Mute messages made absolete by damage calc
+message_colour += mute:Ouch!
+message_colour += mute:You feel a bit more experienced.
+message_colour += mute:* * * LOW HITPOINT WARNING * * *
+
+# Since you see your damage this is not needed
+hp_warning = 0 
+
+###############
+# Damage Calc #
+###############
+<
+	local message = ""
+	
+	local previous_hp = 0
+	local previous_mp = 0
+	local previous_xp = 0
+  
+	local hp_difference = 0
+	local mp_difference = 0
+	local xp_difference = 0
+  
+	local previous_form = ""
+	local was_berserk_last_turn = false
+
+	function calculateSeverity(maximum, change, poolType)
+		
+		if change < 0 then
+			if poolType == "hp" then
+				return "green"
+				else
+				return "blue"
+			end
+		end
+		
+		if change >= (maximum * 0.175) then
+			return "red"
+			elseif change >= (maximum * 0.12) then
+			return "lightred"
+			elseif change >= (maximum * 0.05) then
+			return "yellow"
+			else
+			return "lightgrey"
+		end
+	end
+	
+	function calculatePool(maximum, current, poolType)
+		
+		if current <= (maximum * 0.275) then
+			return "red"
+			elseif current <= (maximum * 0.50) then
+			return "lightred"
+			elseif current <= (maximum *  0.75) then
+			return "yellow"
+			elseif current <= (maximum * 0.90) then
+			if poolType == "hp" then
+				return "lightgreen"
+				else
+				return "lightblue"
+			end
+			else
+			if poolType == "hp" then
+				return "green"
+				else
+				return "blue"
+			end
+		end
+	end
+
+	function AnnounceDamage()
+	
+		local current_hp, max_hp = you.hp()
+		local current_mp, max_mp = you.mp()
+		local current_xp = you.xl_progress()
+		
+		--Things that increase hp/mp temporarily really mess with this
+		local current_form = you.transform()
+		local you_are_berserk = you.berserk()
+		local max_hp_increased = false
+		local max_hp_decreased = false
+
+		if (current_form ~= previous_form) then
+			if (previous_form:find("dragon") or
+			previous_form:find("statue") or
+			previous_form:find("tree") or
+			previous_form:find("ice")) then
+				max_hp_decreased = true
+				elseif (current_form:find("dragon") or
+				current_form:find("statue") or
+				current_form:find("tree") or
+				current_form:find("ice")) then
+				max_hp_increased = true
+			end
+		end
+		
+		if (was_berserk_last_turn and not you_are_berserk) then
+			max_hp_decreased = true
+			elseif (you_are_berserk and not was_berserk_last_turn) then
+			max_hp_increased = true
+		end
+
+		--Skips message on initializing game
+		if previous_hp > 0 then
+		
+			hp_difference = previous_hp - current_hp	
+			mp_difference = previous_mp - current_mp
+			xp_difference = current_xp - previous_xp
+
+			if max_hp_increased or max_hp_decreased then
+				if max_hp_increased then
+					crawl.mpr("<green>You now have " .. current_hp .. "/" .. max_hp .. " hp.</green>")
+					else
+					crawl.mpr("<yellow>You now have " .. current_hp .. "/" .. max_hp .. " hp.</yellow>")
+				end
+			else
+			
+				--Handle HP
+				if (hp_difference ~= 0) then
+					--Notify of high damage
+					if hp_difference > (max_hp * 0.175) then
+						crawl.mpr("<lightred>That's a lot of damage...</lightred>")
+					end
+					--Calculate current health color and change color
+					local poolColor = calculatePool(max_hp, current_hp, "hp")
+					local changeColor = calculateSeverity(max_hp, hp_difference, "hp")
+					--Determine operand for difference
+					local operand = "-"
+					--Switch operand sign and difference sign if it's healing
+					if hp_difference < 0 then
+						operand = "+"
+						hp_difference = 0 - hp_difference
+					end
+					--Add message to string
+					message = message .. string.format("<green>HP: <%s>%d</%s>/%d <%s>(%s%d)</%s></green> ", 
+														poolColor, current_hp, poolColor, 
+														max_hp, 
+														changeColor, operand, hp_difference, changeColor)
+				end
+				
+				--Handle MP
+				if (mp_difference ~= 0) then
+					--Calculate current mana color and change color
+					local poolColor = calculatePool(max_mp, current_mp, "mp")
+					local changeColor = calculateSeverity(max_mp, mp_difference, "mp")
+					--Determine operand for difference
+					local operand = "-"
+					--Switch operand sign and difference sign if it's positive
+					if mp_difference < 0 then
+						operand = "+"
+						mp_difference = 0 - mp_difference
+					end
+					--Add message to string
+					message = message .. string.format("<lightblue>MP: <%s>%d</%s>/%d <%s>(%s%d)</%s> </lightblue>", 
+														poolColor, current_mp, poolColor, 
+														max_mp, 
+														changeColor, operand, mp_difference, changeColor)
+				end
+				
+				--Handle XP
+				if (xp_difference ~= 0) then
+					--Switch operand if levelup happened
+					if (xp_difference < 0) then
+						xp_difference = 100 + xp_difference
+					end
+					--Determine change color
+					local changeColor = ""
+					if xp_difference > 20 then
+						changeColor = "magenta"
+						elseif xp_difference > 10 then
+						changeColor = "green"
+						elseif xp_difference > 5 then
+						changeColor = "yellow"
+						else
+						changeColor = "lightgrey"
+					end
+					--Add message to string
+					message = message .. string.format("<magenta>XP: <%s>+%d</%s> </magenta>", 
+														changeColor, xp_difference, changeColor)
+				end
+				
+			end    
+		end
+		
+		--Print message only if there's something to print
+		if message ~= "" then
+			crawl.mpr(message)
+		end
+		
+		--Set previous hp/mp and form at end of turn
+		previous_hp = current_hp
+		previous_mp = current_mp
+		previous_form = current_form
+		previous_xp = current_xp
+		was_berserk_last_turn = you_are_berserk
+		
+		--Clear message since it's global (TODO: Check if I actually need to do that)
+		message = ""
+	
+	end
+>

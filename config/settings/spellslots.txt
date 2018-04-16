@@ -1,0 +1,121 @@
+# Set Alias for Spell Slots
+slot := spell_slot
+
+# Philosophy - a for lvl 1 spam spell 
+# Capitals for summons
+# x for powerful single target
+# s for a usual safety choice
+# d for close range AoE
+# b for long range AoE
+# other letters - names of spells
+# Basic spellbooks:
+# Book of Air
+slot += Shock:a
+slot += Swiftness:s
+slot += Static Discharge:d
+slot += Airstrike:b
+slot += Lightning Bolt:x
+
+# Book of Battle
+slot += Infusion:i
+slot += Shroud of Golubria:g
+slot += Song of Slaying:y
+slot += Spectral Weapon:W
+slot += Regeneration:r
+
+# Book of Callings
+slot += Summon Small Mammal:M
+slot += Call Imp:I
+slot += Call Canine Familiar:C
+slot += Summon Guardian Golem:G
+slot += Summon Lightning Spire:L
+slot += Summon Ice Beast:B
+
+# Book of Changes
+slot += Beastly Appendage:b
+slot += Sticks to Snakes:S
+slot += Spider Form:s
+slot += Ice Form:c
+slot += Blade Hands:h
+
+# Book of Conjurations
+slot += Magic Dart:a
+slot += Searing Ray:r
+slot += Dazzling Spray:d
+slot += Force Lance:x
+slot += Fulminant Prism:P
+slot += Iskenderun's Mystic Blast:b
+
+# Book of Debilitation
+slot += Corona:c
+slot += Slow:w
+slot += Inner Flame:f
+slot += Portal Projectile:x
+slot += Cause Fear:e
+slot += Leda's Liquefaction:l
+
+# Book of Flames
+slot += Flame Tongue:a
+slot += Throw Flame:x
+slot += Conjure Flame:F
+slot += Inner Flame:f
+slot += Sticky Flame:t
+slot += Fireball:b
+
+# Book of Frost
+slot += Freeze:a
+slot += Throw Frost:b
+slot += Ozocubu's Armour:s
+slot += Throw Icicle:x
+slot += Summon Ice Beast:B
+
+# Book of Geomancy
+slot += Sandblast:a
+slot += Passwall:s
+slot += Stone Arrow:x
+slot += Petrify:p
+slot += Lee's Rapid Deconstruction:b
+
+# Book of Maledictions
+slot += Corona:c
+slot += Ensorcelled Hibernation:h
+slot += Confuse:u
+slot += Tukima's Dance:T
+slot += Dazzling Spray:d
+
+# Book of Minor Magic
+slot += Magic Dart:a
+slot += Blink:s
+slot += Call Imp:I
+slot += Slow:w
+slot += Conjure Flame:F
+slot += Mephitic Cloud:b
+
+# Book of Necromancy
+slot += Pain:a
+slot += Animate Skeleton:S
+slot += Vampiric Draining:x
+slot += Regeneration:r
+slot += Animate Dead:D
+slot += Borgnjor's Vile Clutch:b
+
+# Book of Spatial Translocations
+slot += Blink:s
+slot += Shroud of Golubria:g
+slot += Lesser Beckoning:l
+slot += Gell's Gravitas:b
+slot += Teleport Other:t
+slot += Passage of Golubria:P
+
+# Young Poisoner's Handbook
+slot += Sting:a
+slot += Poisonous Vapours:v
+slot += Mephitic Cloud:b
+slot += Olgreb's Toxic Radiance:d
+slot += Venom Bolt:x
+
+
+
+
+
+

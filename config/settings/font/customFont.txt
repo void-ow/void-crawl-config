@@ -1,0 +1,5 @@
+tile_font_crt_file  = luximr.ttf
+tile_font_stat_file = luximr.ttf
+tile_font_msg_file  = luximr.ttf
+tile_font_tip_file  = luximr.ttf
+tile_font_lbl_file = luximr.ttf

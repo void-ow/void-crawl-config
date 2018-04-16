@@ -1,0 +1,59 @@
+# Got suggestions/improvements?
+# https://github.com/HilariousDeathArtist/DCSSConfigFile
+
+# Ready function
+# OpenSkills - opens skills at the start of the game
+# AnnounceDamage - adaptive damage/healing/xp counter in messagelog
+
+<
+  function ready()
+    OpenSkills()
+    AnnounceDamage()
+  end
+>
+
+## Settings - located in /settings
+# Includes changes to crawl settings values 
+# github.com/crawl/crawl/blob/master/crawl-ref/docs/options_guide.txt
+
+# Basic Settings - interface no-brainers
+include += settings/basic.txt
+
+# Force More - forces <more> prompt for a various events
+# Credit to https://github.com/HilariousDeathArtist/DCSSConfigFile
+include += settings/more.txt 
+
+# Autofight settings
+include += settings/autofight.txt
+
+# Autopickup settings
+include += settings/autopickup.txt
+
+# Autotravel settings
+include += settings/autotravel.txt
+
+# Automacro settings
+include += settings/automacro.txt
+
+# Spellslots
+include += settings/spellslots.txt
+
+# Font Settings
+include += settings/font/customFont.txt
+include += settings/font/size.txt
+
+# Character dump
+include += settings/cdump.txt
+
+## Color settings - changes colors of messages and items
+# Credit to https://github.com/HilariousDeathArtist/DCSSConfigFile
+include += colors/items.txt
+include += colors/messages.txt
+
+## Scripts - written in Lua
+
+# Open skills at game start, has to be included in ready function
+include += scripts/openSkills.txt
+
+# The damage announcement messages, has to be included in ready function
+include += scripts/damage.txt

@@ -1,0 +1,21 @@
+# Prevent me from tab-fighting to death by keeping this high
+autofight_stop = 75
+
+# Do/don't throw stuff when autofighting
+autofight_throw = true
+autofight_throw_nomove = true
+# If true. items are autofired stopping at the monsters feet (same as firing using .)
+autofight_fire_stop = true
+
+fire_order  = launcher, return
+fire_order += javelin, tomahawk, stone / rock
+
+autofight_caught = true
+
+# Enables automagic attacks
+automagic_enable = true
+automagic_slot = a
+# Percentage of MP to stop automagic at
+automagic_stop = 50
+# If set to true, resort to melee when automagic_stop is active
+automagic_fight = true

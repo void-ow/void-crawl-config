@@ -1,0 +1,1019 @@
+
+# Allows easily dropping multiple items
+drop_mode += multi
+# Always show the full list of items when you pick up a stack
+pickup_mode += multi
+# Allows followers to pick up ANYTHING (take care not to lose artefacts)
+default_friendly_pickup += all
+
+# Set Alias for Autopickup Exceptions
+ae := autopickup_exceptions
+
+# Add high risk high reward items to autopickup
+# I assume we know what we're doing
+ae += <dangerous_item
+
+# $ = gold
+# ? = scroll
+# ! = potion
+# : = book
+# " = jewellery
+# / = wand
+# % = food
+# } = miscellaneous
+# \ = rods
+# | = staves
+# ) = weapon
+# ( = missiles
+# [ = armour
+
+# Greedy autopickup
+autopickup += $?!:"/%}
+
+# Add staves if you're a mage
+: if you.skill("Spellcasting") >= 3 then
+autopickup += |
+: end
+
+# Don't ever pick this shit up
+# Unless you're a Xom follower, in which case: good luck
+ae += wand of random effects
+{
+add_autopickup_func(function(it, name)
+	if you.god() == "Xom" then
+		if name:find("wand of random effects") then return true end
+	end
+end)
+}
+
+# Don't pick up shit wands after xl 10
+# They won't be effective anyway
+{
+add_autopickup_func(function(it, name)
+if you.xl() >= 10 and you.skill("Evocations") <= 2 then
+	if name:find("wand of disintegration") then return false end
+	if name:find("wand of enslavement") then return false end
+	if name:find("wand of flame") then return false end
+	if name:find("wand of iceblast") then return false end
+	if name:find("wand of paralysis") then return false end
+	if name:find("wand of polymorph") then return false end
+end
+end)
+}
+
+# I'm pretty sure someone fucked it up in defaults
+: add_autopickup_func(function (it, name)
+:         if you.god() == "Trog" then
+:             if it.class(true) == "book" and not it.name():find("manual") then
+:                 return false
+:             end
+:         end
+: end)
+
+# Autopickup artefacts
+ae += <artefact
+
+# Don't pick up second rings you'll most likely not need more than one of
+# Might be controversial but it clogs inventory most of the time
+ae += ring of (fire|ice|positive energy|protection from cold|protection from fire|protection from magic|stealth|wizardry)
+
+# Void's Armor/Weapon autopickup script
+# Main philosophy - if it's obviously better - pick it up.
+# Still in beta - feedback greatly appreciated
+{
+add_autopickup_func(function(it, name)
+  
+  if name:find("stone") then return true end
+  
+	if (you.skill("Spellcasting") < 1) then
+	  if name:find("tomahawk") then return true end
+	  if name:find("javelin") then return true end
+	  if name:find("throwing net") then return true end
+	end
+ 
+  local class = it.class(true)
+  local armour_slots = {cloak="Cloak", helmet="Helmet", gloves="Gloves", boots="Boots", body="Armour", shield="Shield"}
+
+  if (class == "armour") then
+		if it.is_useless then return false end
+		
+    sub_type = it.subtype()
+    equipped_item = items.equipped_at(armour_slots[sub_type])
+ 
+    if (sub_type == "cloak") or (sub_type == "helmet") or (sub_type == "gloves") or (sub_type == "boots") then
+      if not equipped_item then
+        return true
+      else
+        return it.artefact or it.branded or it.ego
+      end
+    end
+ 
+	if (sub_type == "body") then
+		if equipped_item then
+			local sc = you.skill("Spellcasting")
+			local arm = you.skill("Armour")
+			local ename = equipped_item.name()
+			local eq = equipped_item
+			if ename:find("robe") then
+				if name:find("robe") or name:find("animal skin") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("leather armour")  or name:find("troll leather armour") then
+					if arm >= 4 or sc == 0 then
+						if it.branded or eq.plus <= 2 then
+							return true
+						end
+					end
+				end
+				if name:find("mail") or name:find("plate armour") or name:find("acid") or name:find("swamp") or name:find("quicksilver") or name:find("fire dragon") or name:find("ice dragon") or name:find("pearl") or name:find("shadow") or name:find("storm") or name:find("gold") then
+					if arm >= 6 or sc == 0 then
+						return true
+					end
+				end
+				if name:find("steam dragon") then
+					return true
+				end
+			end
+			if ename:find("leather armour") then
+				if name:find("leather armour") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("troll leather armour") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("mail") or name:find("plate armour") or name:find("acid") or name:find("swamp") or name:find("quicksilver") or name:find("fire dragon") or name:find("ice dragon") or name:find("pearl") or name:find("shadow") or name:find("storm") or name:find("gold") then
+					if arm >= 6 or sc == 0 then
+						return true
+					end
+				end
+				if name:find("steam dragon") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+			end
+			if ename:find("ring mail") then
+				if name:find("ring mail") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("scale mail") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("chain mail") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+				if name:find("acid") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("swamp") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+				if name:find("plate armour") then
+					if it.branded or eq.plus <= 5 then
+						return true
+					end
+				end
+				if name:find("crystal plate") or name:find("quicksilver") or name:find("fire dragon") or name:find("ice dragon") or name:find("pearl") or name:find("shadow") or name:find("storm") or name:find("gold") then
+					if arm >= 10 or sc == 0 then
+						return true
+					end
+				end
+				if name:find("steam dragon") then
+					if it.branded or eq.plus == 0 then
+						return true
+					end
+				end
+			end
+			if ename:find("scale mail") then
+				if name:find("scale mail") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("chain mail") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("acid") then
+					if it.branded or eq.plus <= 0 then
+						return true
+					end
+				end
+				if name:find("swamp") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("plate armour") then
+					if it.branded or eq.plus <= 4 then
+						return true
+					end
+				end
+				if name:find("crystal") or name:find("quicksilver") or name:find("fire dragon") or name:find("ice dragon") or name:find("pearl") or name:find("shadow") or name:find("storm") or name:find("gold") then
+					if arm >= 10 or sc == 0 then
+						return true
+					end
+				end
+				if name:find("steam dragon") then
+					if it.branded or eq.plus == 0 then
+						return true
+					end
+				end
+			end
+			if ename:find("chain mail") then
+				if name:find("chain mail") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("acid") or name:find("swamp") then
+					if it.branded or eq.plus == 0 then
+						return true
+					end
+				end
+				if name:find("plate armour") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("quicksilver") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("crystal") or name:find("fire dragon") or name:find("ice dragon") or name:find("pearl") or name:find("shadow") or name:find("storm") or name:find("gold") then
+					if arm >= 10 or sc == 0 then
+						return true
+					end
+				end
+			end
+			if ename:find("plate armour") then
+				if name:find("plate armour") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("crystal plate") then
+					if it.branded or eq.plus <= 4 then
+						return true
+					end
+				end
+				if name:find("quicksilver") then
+					if it.branded or eq.plus <= 0 then
+						return true
+					end
+				end
+				if name:find("fire dragon") or name:find("ice dragon") or name:find("pearl") or name:find("shadow") or name:find("storm") or name:find("gold") then
+					if arm >= 10 or sc == 0 then
+						return true
+					end
+				end
+			end
+			if ename:find("crystal plate") then
+				if name:find("crystal plate") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("gold dragon") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+			end
+			if ename:find("steam dragon") then
+				if name:find("steam dragon") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if arm >= 1 or sc == 0 then					
+					if name:find("acid") then
+						if it.branded or eq.plus <= 1 then
+							return true
+						end
+					end					
+					if name:find("swamp") then
+						if it.branded or eq.plus <= 2 then
+							return true
+						end
+					end					
+					if name:find("quicksliver") then
+						if it.branded or eq.plus <= 4 then
+							return true
+						end
+					end					
+					if name:find("fire") then
+						if it.branded or eq.plus <= 3 then
+							return true
+						end
+					end					
+					if name:find("ice") then
+						if it.branded or eq.plus <= 4 then
+							return true
+						end
+					end					
+					if name:find("pearl") then
+						if it.branded or eq.plus <= 5 then
+							return true
+						end
+					end					
+					if name:find("shadow") then
+						if it.branded or eq.plus <= 5 then
+							return true
+						end
+					end					
+					if name:find("storm") then
+						if it.branded or eq.plus <= 5 then
+							return true
+						end
+					end					
+					if name:find("gold") then
+						if it.branded or eq.plus <= 7 then
+							return true
+						end
+					end
+				end
+			end
+			if ename:find("acid dragon") then
+				if name:find("acid dragon") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("swamp") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("quicksilver") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+				if name:find("fire") or name:find("ice") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+				if name:find("pearl") or name:find("shadow") or name:find("storm") then
+					if it.branded or eq.plus <= 4 then
+						return true
+					end
+				end
+				if name:find("gold") then
+					if it.branded or eq.plus <= 6 then
+						return true
+					end
+				end
+			end
+			if ename:find("swamp dragon") then
+				if name:find("swamp dragon") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("quicksilver") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("fire") or name:find("ice") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("pearl") or name:find("shadow") or name:find("storm") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+				if name:find("gold") then
+					if it.branded or eq.plus <= 5 then
+						return true
+					end
+				end
+			end
+			if ename:find("quicksilver dragon") then
+				if name:find("quicksilver") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("fire") or name:find("ice") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("pearl") or name:find("shadow") or name:find("storm") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("gold") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+			end
+			if ename:find("fire dragon") or name:find("ice dragon") then
+				if name:find("fire dragon") or name:find("ice dragon") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("pearl") or name:find("shadow") or name:find("storm") then
+					if it.branded or eq.plus <= 1 then
+						return true
+					end
+				end
+				if name:find("gold") then
+					if it.branded or eq.plus <= 3 then
+						return true
+					end
+				end
+			end
+			if ename:find("pearl dragon") or name:find("shadow dragon")  or name:find("storm dragon") then
+				if name:find("pearl") or name:find("shadow") or name:find("storm") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+				if name:find("gold") then
+					if it.branded or eq.plus <= 2 then
+						return true
+					end
+				end
+			end
+			if ename:find("gold dragon") then
+				if name:find("gold") then
+					if it.branded and eq.plus <= 2 then
+						return true
+					end
+				end
+			end
+				
+		else
+			return true
+		end
+	end
+ 
+    if (sub_type == "shield") then
+      if equipped_item then
+          return it.artefact or it.branded or it.ego
+      end
+    end
+  end
+  
+  if (class == "weapon") then
+  
+	if it.is_useless then 
+		return false 
+	end
+	
+	local weapon = items.equipped_at("Weapon")
+        local sb = you.skill("Short Blades")
+        local lb = you.skill("Long Blades")
+        local axe = you.skill("Axes")
+        local mf = you.skill("Maces & Flails")
+        local pole = you.skill("Polearms")
+        local staff = you.skill("Staves")
+	
+	--Figure out if twohanded is desired
+	local can_th = true;
+	if you.skill("Shields") > 2 and not you.race():find("Gnoll") and not you.race():find("Formicid") then
+		can_th = false;
+	end
+	
+	local main = ""
+	-- Find main skill
+	if sb >= lb and sb >= axe and sb >= mf and sb >= pole and sb >= staff then
+		main = main .. "sb"
+	end
+	
+	if lb >= sb and lb >= axe and lb >= mf and lb >= pole and lb >= staff then
+		main = main .. "lb"
+	end
+	
+	if axe >= sb and axe >= lb and axe >= mf and axe >= pole and axe >= staff then
+		main = main .. "axe"
+	end
+	
+	if mf >= sb and mf >= lb and mf >= axe and mf >= pole and mf >= staff then
+		main = main .. "mf"
+	end
+	
+	if pole >= sb and pole >= lb and pole >= axe and pole >= mf and pole >= staff then
+		main = main .. "pole"
+	end
+	
+	if staff >= sb and staff >= lb and staff >= axe and staff >= mf and staff >= pole then
+		main = main .. "staff"
+	end
+	
+	if not weapon then
+		if (you.skill("Unarmed Combat") < 1) then
+			return true
+		end
+	else
+		local weapon_name = weapon.name()
+		-- Handle Short Blades
+		if main:find("sb") then
+			if weapon_name:find("dagger") then
+				if name:find("dagger") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("quick blade") then
+					return true
+				end
+			end
+			if weapon_name:find("quick blade") then
+				if name:find("quick blade") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("short sword") then
+				if name:find("short sword") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("rapier") then
+					return true
+				end
+			end
+			if weapon_name:find("rapier") then
+				if name:find("rapier") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+		end
+		-- Handle Long Blades
+		if main:find("lb") then
+			if weapon_name:find("falchion") then
+				if name:find("falchion") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("long sword") then
+					if it.branded or weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("scimitar") then
+					if it.branded or weapon.plus <= 6 then
+						return true
+					end
+				end
+				if name:find("demon blade") then
+					return true
+				end
+				if name:find("double sword") then
+					return true
+				end
+			end
+			if weapon_name:find("long sword") then
+				if name:find("long sword") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("scimitar") then
+					if it.branded or weapon.plus <= 3  then
+						return true
+					end
+				end
+				if name:find("demon blade") then
+					return true
+				end
+				if name:find("double sword") then
+					return true
+				end
+			end
+			if weapon_name:find("scimitar") then
+				if name:find("scimitar") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("demon blade") then
+					return true
+				end
+				if name:find("double sword") then
+					return true
+				end
+			end
+			if weapon_name:find("demon blade") or weapon_name:find("eudemon blade") then
+				if name:find("demon blade") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("double sword") then
+					return true
+				end
+			end
+			if weapon_name:find("double sword") then
+				if name:find("double sword") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+			if can_th == true then
+				if weapon_name:find("falchion") or weapon_name:find("long sword") or weapon_name:find("scimitar") or weapon_name:find("demon blade") or weapon_name:find("eudemon blade") or weapon_name:find("double sword") then
+					if name:find("great sword") or name:find("triple sword") then
+						return true
+					end
+				end
+				if weapon_name:find("great sword") or weapon_name:find("triple sword") then
+					if name:find("great sword") or name:find("triple sword") then
+						if it.branded and weapon.plus <= 4 then
+							return true
+						end
+					end
+				end
+			end
+		end
+		-- Handle Axes
+		if main:find("axe") then
+			if weapon_name:find("hand axe") then
+				if name:find("hand axe") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("war axe") then
+					if it.branded or weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("broad axe") then
+					if it.branded or weapon.plus <= 6 then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("war axe") then
+				if name:find("war axe") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("broad axe") then
+					if it.branded or weapon.plus <= 2  then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("broad axe") then
+				if name:find("broad axe") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+			if can_th == true then
+				if weapon_name:find("hand axe") or weapon_name:find("war axe") or weapon_name:find("broad axe") then
+					if name:find("battleaxe") or name:find("executioner's axe") then
+						return true
+					end
+				end
+				if weapon_name:find("battleaxe") then
+					if name:find("battleaxe") then
+						if it.branded and weapon.plus <= 4  then
+							return true
+						end
+					end
+					if name:find("executioner's axe") then
+						if it.branded or weapon.plus <= 3  then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("executioner's axe") then
+					if name:find("executioner's axe") then
+						if it.branded and weapon.plus <= 4  then
+							return true
+						end
+					end
+				end
+			end
+		end
+		-- Handle M & F
+		if main:find("mf") then
+			if weapon_name:find("club") then
+				if name:find("club") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("whip") then
+					if it.branded or weapon.plus <= 1  then
+						return true
+					end
+				end
+				if name:find("mace") then
+					if it.branded or weapon.plus <= 3 then
+						return true
+					end
+				end
+				if name:find("flail") then
+					return true
+				end
+				if name:find("morningstar") then
+					return true
+				end
+				if name:find("demon whip") then
+					return true
+				end
+				if name:find("eveningstar") then
+					return true
+				end
+			end
+			if weapon_name:find("whip") then
+				if name:find("whip") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("mace") then
+					if it.branded or weapon.plus <= 2  then
+						return true
+					end
+				end
+				if name:find("flail") then
+					if it.branded or weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("morningstar") then
+					if it.branded or weapon.plus <= 7  then
+						return true
+					end
+				end
+				if name:find("demon whip") then
+					return true
+				end
+				if name:find("eveningstar") then
+					return true
+				end
+			end
+			if weapon_name:find("mace") then
+				if name:find("mace") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("flail") then
+					if it.branded or weapon.plus <= 2  then
+						return true
+					end
+				end
+				if name:find("morningstar") then
+					if it.branded or weapon.plus <= 5  then
+						return true
+					end
+				end
+				if name:find("demon whip") then
+					return true
+				end
+				if name:find("eveningstar") then
+					return true
+				end
+			end
+			if weapon_name:find("flail") then
+				if name:find("flail") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("morningstar") then
+					if it.branded or weapon.plus <= 3  then
+						return true
+					end
+				end
+				if name:find("demon whip") then
+					return true
+				end
+				if name:find("eveningstar") then
+					return true
+				end
+			end
+			if weapon_name:find("morningstar") then
+				if name:find("morningstar") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("demon whip") then
+					if it.branded or weapon.plus  <= 3 then
+						return true
+					end
+				end
+				if name:find("eveningstar") then
+					if it.branded or weapon.plus  <= 4 then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("demon whip") or weapon_name:find("sacred scourge") then
+				if name:find("demon whip") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("eveningstar") then
+					if it.branded or weapon.plus  <= 3 then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("eveningstar") then
+				if name:find("eveningstar") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+			if can_th == true then
+				if weapon_name:find("club") or weapon_name:find("whip") or weapon_name:find("mace") or weapon_name:find("flail") or weapon_name:find("morningstar") or weapon_name:find("demon whip") then
+					if name:find("dire flail") or name:find("great mace") then
+						return true
+					end
+				end
+				if weapon_name:find("sacred scourge") or weapon_name:find("eveningstar") then
+					if name:find("great mace") then
+						if it.branded or weapon.plus <= 4 then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("dire flail") then
+					if name:find("dire flail") then
+						if it.branded and weapon.plus <= 4 then
+							return true
+						end
+					end
+					if name:find("great mace") then
+						if it.branded or weapon.plus <= 4 then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("great mace") then
+					if name:find("great mace") then
+						if it.branded and weapon.plus <= 4 then
+							return true
+						end
+					end
+				end
+			end
+		end
+		-- Handle Polearms
+		if main:find("pole") then
+			if weapon_name:find("spear") then
+				if name:find("spear") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("trident") then
+					if it.branded or weapon.plus <= 3  then
+						return true
+					end
+				end
+				if name:find("demon trident") then
+					if it.branded or weapon.plus <= 6 then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("trident") then
+				if name:find("trident") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("demon trident") then
+					if it.branded or weapon.plus <= 3  then
+						return true
+					end
+				end
+			end
+			if weapon_name:find("demon trident") or weapon_name:find("trishula") then
+				if name:find("demon trident") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+			if can_th == true then
+				if weapon_name:find("spear") or weapon_name:find("trident") then
+					if name:find("halberd") or name:find("scythe") or name:find("glaive") or name:find("bardiche") then
+						return true
+					end
+				end
+				if weapon_name:find("demon trident") or weapon_name:find("trishula") then
+					if name:find("halberd") or name:find("scythe") then
+						if it.branded and weapon.plus <= 3 then
+							return true
+						end
+					end
+					if name:find("glaive") then
+						if it.branded or weapon.plus <= 4 then
+							return true
+						end
+					end
+					if name:find("bardiche") then
+						if it.branded or weapon.plus <= 6 then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("halberd") or weapon_name:find("scythe") then
+					if name:find("halberd") or name:find("scythe") then
+						if it.branded and weapon.plus <= 4  then
+							return true
+						end
+					end
+					if name:find("glaive") then
+						if it.branded or weapon.plus <= 2 then
+							return true
+						end
+					end
+					if name:find("bardiche") then
+						if it.branded or weapon.plus <= 5 then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("glaive") then
+					if name:find("glaive") then
+						if it.branded and weapon.plus <= 4  then
+							return true
+						end
+					end
+					if name:find("bardiche") then
+						if it.branded or weapon.plus <= 3 then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("bardiche") then
+					if name:find("bardiche") then
+						if it.branded and weapon.plus <= 4  then
+							return true
+						end
+					end
+				end
+			end
+		end
+		-- Handle Staffs
+		if main:find("staff") then
+			if weapon_name:find("quarterstaff") then
+				if name:find("quarterstaff") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+				if name:find("lajatang") then
+					return true
+				end
+			end
+			if weapon_name:find("lajatang") then
+				if name:find("lajatang") then
+					if it.branded and weapon.plus <= 4  then
+						return true
+					end
+				end
+			end
+		end
+	end
+end
+end)
+}

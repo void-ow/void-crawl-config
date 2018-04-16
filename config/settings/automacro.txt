@@ -1,0 +1,153 @@
+m := macros
+
+:local automacro = true
+:if you.turns() > 0 then
+:	if crawl.yesno("Do you want to apply automacro?", true, "n") then
+:		automacro = true
+:		else
+:		automacro = false
+:		end
+:end
+
+:if automacro == true then
+	:if you.class() == "Skald" then
+		m += M 1 zi
+		m += M 2 zg
+		m += M 3 zy
+		m += M \{-1073741882} zW
+		m += M 4 zr
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Infusion</blue>, 2: <blue>Shroud of Golubria</blue>, 3: <blue>Song of Slaying</blue>, F1: <blue>Spectral Weapon</blue>, 4: <blue>Regeneration</blue>")
+	:end
+
+	:if you.class() == "Transmuter" then
+		m += M 1 zb
+		m += M 2 zs
+		m += M 3 zc
+		m += M \{-1073741882} zS
+		m += M 4 zh
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Beastly Appendage</blue>, 2: <blue>Spider Form</blue>, 3: <blue>Ice Form</blue>, 4: <blue>Blade Hands</blue>, F1: <blue>Sticks to Snakes</blue>")
+	:end
+
+	:if you.class() == "Warper" then
+		m += M 1 zs
+		m += M 2 zg
+		m += M 3 zl
+		m += M \{-1073741882} zt
+		m += M \{-1073741883} zP
+		m += M 4 zb
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Blink</blue>, 2: <blue>Shroud of Golubria</blue>, 3: <blue>Lesser Beckoning</blue>, 4: <blue>Gell's Gravitas</blue>, F1: <blue>Teleport Other</blue>, F2: <blue>Passage of Golubria</blue>")
+	:end
+
+	:if you.class() == "Arcane Marksman" then
+		m += M 1 zxf
+		m += M 2 zf
+		m += M 3 ze
+		m += M \{-1073741882} zcf
+		m += M \{-1073741883} zwf
+		m += M 4 zl
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Portal Projectile</blue>, 2: <blue>Inner Flame</blue>, 3: <blue>Cause Fear</blue>, 4: <blue>Leda's Liquefaction</blue>, F1: <blue>Corona</blue>, F2: <blue>Slow</blue>")
+	:end
+
+	:if you.class() == "Enchanter" then
+		m += M 1 zh
+		m += M 2 zu
+		m += M 3 zd
+		m += M \{-1073741882} zcf
+		m += M \{-1073741883} zT
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Ensorcelled Hibernation</blue>, 2: <blue>Confuse</blue>, 3: <blue>Dazzling Spray</blue>, F1: <blue>Corona</blue>, F2: <blue>Tukima's Dance</blue>")
+	:end
+
+	:if you.class() == "Wizard" then
+		m += M 1 zaf
+		m += M 2 zs
+		m += M 3 zF
+		m += M \{-1073741882} zI
+		m += M \{-1073741883} zwf
+		m += M 4 zb
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Magic Dart</blue>, 2: <blue>Blink</blue>, 3: <blue>Conjure Flame</blue>, 4: <blue>Mephitic Cloud</blue>, F1: <blue>Call Imp</blue>, F2: <blue>Slow</blue>")
+	:end
+
+	:if you.class() == "Conjurer" then
+		m += M 1 zaf
+		m += M 2 zxf
+		m += M 3 zd
+		m += M \{-1073741882} zr
+		m += M \{-1073741883} zP
+		m += M 4 zbf
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Magic Dart</blue>, 2: <blue>Force Lance</blue>, 3: <blue>Dazzling Spray</blue>, 4: <blue>Iskenderun's Mystic Blast</blue>, F1: <blue>Searing Ray</blue>, F2: <blue>Fulminant Prism</blue>")
+	:end
+
+	:if you.class() == "Summoner" then
+		m += M 1 zM
+		m += M 2 zI
+		m += M 3 zC
+		m += M \{-1073741882} zG
+		m += M \{-1073741883} zL
+		m += M 4 zB
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Summon Small Mammal</blue>, 2: <blue>Call Imp</blue>, 3: <blue>Call Canine Familiar</blue>, 4: <blue>Summon Ice Beast</blue>, F1: <blue>Summon Guardian Golem</blue>, F2: <blue>Summon Lightning Spire</blue>")
+	:end
+
+	:if you.class() == "Necromancer" then
+		m += M 1 zaf
+		m += M 2 zxf
+		m += M 3 zr
+		m += M \{-1073741882} zS
+		m += M \{-1073741883} zD
+		m += M 4 zb
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Pain</blue>, 2: <blue>Vampiric Draining</blue>, 3: <blue>Regeneration</blue>, 4: <blue>Borgnjor's Vile Clutch</blue>, F1: <blue>Animate Skeleton</blue>, F2: <blue>Animate Dead</blue>")
+	:end
+
+	:if you.class() == "Fire Elementalist" then
+		m += M 1 zaf
+		m += M 2 zxf
+		m += M 3 zF
+		m += M \{-1073741882} zf
+		m += M \{-1073741883} ztf
+		m += M 4 zb
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Flame Tongue</blue>, 2: <blue>Throw Flame</blue>, 3: <blue>Conjure Flame</blue>, 4: <blue>Fireball</blue>, F1: <blue>Inner Flame</blue>, F2: <blue>Sticky Flame</blue>")
+	:end
+
+	:if you.class() == "Ice Elementalist" then
+		m += M 1 zaf
+		m += M 2 zbf
+		m += M 3 zxf
+		m += M \{-1073741882} zs
+		m += M \{-1073741883} zB
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Freeze</blue>, 2: <blue>Throw Frost</blue>, 3: <blue>Throw Icicle</blue>, F1: <blue>Ozocubu's Armour</blue>, F2: <blue>Summon Ice Beast</blue>")
+	:end
+
+	:if you.class() == "Air Elementalist" then
+		m += M 1 zaf
+		m += M 2 zx
+		m += M 3 zd
+		m += M \{-1073741882} zs
+		m += M \{-1073741883} zb
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Shock</blue>, 2: <blue>Lightning Bolt</blue>, 3: <blue>Static Discharge</blue>, F1: <blue>Swiftness</blue>, F2: <blue>Airstrike</blue>")
+	:end
+
+	:if you.class() == "Earth Elementalist" then
+		m += M 1 zaf
+		m += M 2 zxf
+		m += M 3 zb
+		m += M \{-1073741882} zs
+		m += M \{-1073741883} zp
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Sandblast</blue>, 2: <blue>Stone Arrow</blue>, 3: <blue>Lee's Rapid Deconstruction</blue>, F1: <blue>Passwall</blue>, F2: <blue>Petrify</blue>")
+	:end
+
+	:if you.class() == "Venom Mage" then
+		m += M 1 zaf
+		m += M 2 zv
+		m += M 3 zb
+		m += M \{-1073741882} zd
+		m += M 4 zx
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Sting</blue>, 2: <blue>Poisonous Vapours</blue>, 3: <blue>Mephitic Cloud</blue>, 4: <blue>Venom Bolt</blue>, F1: <blue>Olgreb's Toxic Radiance</blue>")
+	:end
+
+	:if you.class() == "Berserker" then
+		m += M 1 aa
+		m += M 2 ab
+		m += M 3 ac
+		m += M \{-1073741882} ad
+		:crawl.mpr("<green>Automacro:</green> 1: <blue>Berserk</blue>, 2: <blue>Trog's Hand</blue>, 3: <blue>Brothers In Arms</blue>, F1: <blue>Burn Spellbooks</blue>")
+	:end
+:end

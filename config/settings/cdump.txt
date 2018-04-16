@@ -1,0 +1,15 @@
+dump_item_origins = all
+dump_item_origin_price = 100
+dump_message_count = 100
+dump_order += vaults, turns_by_place, kills_by_place
+dump_book_spells = false
+ood_interesting = 6
+note_hp_percent = 25
+note_all_skill_levels = true
+note_xom_effects = true
+note_items += of Zot,rod,acquirement
+note_messages += Your scales start
+note_messages += protects you from harm
+note_messages += You fall through a shaft
+note_messages += [bB]anish.*Abyss
+note_monsters += orb of fire,silver star,pearl dragon,ancient lich

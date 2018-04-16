@@ -1,0 +1,131 @@
+#########################
+# Aliases and Variables #
+#########################
+
+# Set Alias
+menu := menu_colour
+# Clear defaults
+menu =
+
+# Variables (Worst to Best)
+$evil := red
+$negative := brown
+$danger := lightred
+$warning := yellow
+$boring := darkgrey
+$decent := white
+$good := lightblue
+$positive := green
+$verypositive := lightgreen
+$awesome := lightmagenta
+
+# Unusual Variables
+$mp := lightcyan
+$equipped := cyan
+$mutation := magenta
+
+##################
+# Basic Settings #
+##################
+
+# General Categories
+menu += $boring:(melded)
+menu += $boring:.*useless_item.*
+menu += $evil:.*forbidden.*
+menu += $danger:[^n]cursed
+menu += inventory:$danger:[^n]cursed
+menu += inventory:$equipped:.*equipped.*
+menu += $awesome:.*artefact.*
+
+# Unidentified Items
+menu += $warning:^unidentified .*(jewellery|potion|scroll|wand).*
+menu += $good:^unidentified .*armour.*(embroidered|dyed|glowing|shiny|runed)
+menu += $good:^unidentified .*weapon.*(glowing|runed)
+
+#################
+# Various Items #
+#################
+
+# Amulets
+menu += $boring:amulet of (faith|inaccuracy)
+menu += $warning:amulet of harm
+menu += $good:amulet of (guardian spirit|warding)
+menu += $positive:amulet of (rage|the gourmand)
+menu += $verypositive:amulet of (reflection|regeneration|magic regeneration)
+
+# Decks (keep warning as default in case of new decks)
+menu += $evil:deck of punishments
+menu += $warning:deck of (changes|destruction)
+menu += $decent:deck of cards
+menu += $good:deck of war
+menu += $positive:deck of (defence|summoning)
+menu += $verypositive:deck of escape
+menu += $awesome:deck of wonders
+
+# Evokables
+menu += blue:inert
+menu += $decent:box of beasts
+menu += $good:fans? of gales
+menu += $good:lamps? of fire
+menu += $good:phials? of floods
+menu += $good:lightning rods?
+menu += $good:sack of spiders
+menu += $positive:phantom mirror
+menu += $verypositive:Horn of Geryon
+menu += $mp:crystal ball of energy
+
+# Food
+menu += $evil:evil_eating
+menu += $danger:rot-inducing
+menu += $warning:poisonous
+menu += $boring:inedible
+menu += $good:ration
+menu += $good:(corpse|chunk)
+menu += $mutation:mutagenic
+
+# Potions
+menu += $evil:potions? of degeneration
+menu += $danger:potions? of berserk rage
+menu += $decent:potions? of (flight|lignification|ambrosia|cancellation)
+menu += $good:potions? of (agility|brilliance|invisibility|might|resistance)
+menu += $positive:potions? of curing
+menu += $verypositive:potions? of (haste|heal wounds)
+menu += $awesome:potions? of experience
+menu += $mp:potions? of magic
+menu += $mutation:potions? of mutation
+
+# Rings
+menu += $negative:ring of \-.*(dexterity|evasion|intelligence|protection|slaying|strength)
+menu += $negative:ring of (loudness|teleport)
+menu += $warning:ring of (fire|ice)
+menu += $decent:ring of flight
+menu += $good:ring of (.*evasion|magical power|.*protection|stealth|wizardry|.*dexterity|.*evasion|.*intelligence|.*strength)
+menu += $positive:ring of (poison resistance|positive energy|protection from cold|protection from fire|protection from magic|resist corrosion|see invisible)
+menu += $verypositive:ring of (regeneration|.*slaying) 
+
+# Scrolls
+menu += $negative:scrolls? of vulnerabilty
+menu += $danger:scrolls? of (torment|immolation)
+menu += $boring:scrolls? of (noise|random)
+menu += $decent:scrolls? of (amnesia|holy word|identify|remove curse)
+menu += $good:scrolls? of (fear|fog|silence|summoning|vulnerability|magic mapping)
+menu += $positive:scrolls? of (brand|enchant)
+menu += $verypositive:scrolls? of (teleportation|summoning)
+menu += $awesome:scrolls? of (acquirement|blinking)
+
+# Staves
+menu += $mp:staff of (energy|Wucad Mu)
+menu += $positive:[^r]staff of
+
+# Wands
+menu += $boring:wand of (random effects)
+menu += $decent:wand of (flame|enslavement|paralysis|polymorph)
+menu += $good:wand of (acid|digging|disintegration|iceblast)
+menu += $positive:wand of (clouds|scattershot)
+
+# Other
+menu += $negative:shield of the gong
+menu += $good:throwing net
+menu += $awesome:.*misc.*rune( of Zot)?
+menu += $awesome:.*orb.*Zot
+menu += $awesome:manual

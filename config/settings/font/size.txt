@@ -1,0 +1,5 @@
+tile_font_crt_size = 13
+tile_font_stat_size = 14
+tile_font_msg_size = 12
+tile_font_tip_size = 13
+tile_font_lbl_size = 12

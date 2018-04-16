@@ -1,8 +1,8 @@
-Void's Config for Dungeon Crawl Stone Soup v. 0.21
+# Void's Config for Dungeon Crawl Stone Soup v. 0.21
 
 Eventually this readme will not look like shit
 
-What's in it:
+## What's in it:
 1. Colors for items/messages
 2. Damage/Mana/XP logging script
 3. Autofight changes - autothrow, autocast...
@@ -14,9 +14,10 @@ What's in it:
 9. Spellslots for every basic book
 10. Fluff - changed font
 
-How to install
+## How to install
 1. Unpack the config folder into crawl/settings folder
 2. Add include = config/main.txt to the init.txt
 
-Acknowlegements
+## Acknowlegements
+
 Big shoutout to HDA, for his config was basically the basis for this one. A lot of things have been changed, but more/autotravel/cdump are basically his.

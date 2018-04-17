@@ -107,6 +107,7 @@ hp_warning = 0
 			hp_difference = previous_hp - current_hp	
 			mp_difference = previous_mp - current_mp
 			xp_difference = current_xp - previous_xp
+			local single_point = false
 
 			if max_hp_increased or max_hp_decreased then
 				if max_hp_increased then
@@ -118,6 +119,10 @@ hp_warning = 0
 			
 				--Handle HP
 				if (hp_difference ~= 0) then
+				    -- Don't spam +1, it's irrelevant. But only if the message is just hp change
+				    if hp_difference == -1 then
+				        single_point = not single_point
+				    end
 					--Notify of high damage
 					if hp_difference > (max_hp * 0.175) then
 						crawl.mpr("<lightred>That's a lot of damage...</lightred>")
@@ -141,6 +146,12 @@ hp_warning = 0
 				
 				--Handle MP
 				if (mp_difference ~= 0) then
+				    -- Don't spam +1, it's irrelevant. But only if the message is just hp change
+				    if mp_difference == -1 then
+				        single_point = not single_point
+				    else
+				        single_point = false
+				    end
 					--Calculate current mana color and change color
 					local poolColor = calculatePool(max_mp, current_mp, "mp")
 					local changeColor = calculateSeverity(max_mp, mp_difference, "mp")
@@ -156,6 +167,11 @@ hp_warning = 0
 														poolColor, current_mp, poolColor, 
 														max_mp, 
 														changeColor, operand, mp_difference, changeColor)
+				end
+
+				--Remove +1s if they are only from one source
+				if single_point == true then
+				    message = ""
 				end
 				
 				--Handle XP

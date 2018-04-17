@@ -1,7 +1,7 @@
 m := macros
 
 :local automacro = true
-:if you.turns() > 0 then
+:if you.turns() > 0 and (you.skill("Spellcasting") > 1 or you.class() == "Berserker")  then
 :	if crawl.yesno("Do you want to apply automacro?", true, "n") then
 :		automacro = true
 :		else

@@ -54,7 +54,10 @@ Big shoutout to HDA (https://github.com/HilariousDeathArtist/DCSSConfigFile), fo
 ## Yo, what's the plan?
 1. Fixing up this readme
 2. Reevaluate colors
-3. Polish Damage Log a bit - remove +1 HP spam
 4. Test up autopickup and defenitely change things up for armor autopickup
 5. Probably change things up in More - remove obsolete entries, add new ones
 6. Add spellslots for every spell in the game
+
+### Done:
+
+~~3. Polish Damage Log a bit - remove +1 HP spam~~

@@ -1,7 +1,19 @@
 m := macros
 
+: local function has_value (tab, val)
+:    for index, value in ipairs(tab) do
+:        if value == val then
+:            return true
+:        end
+:    end
+:
+:    return false
+: end
+
+:local has_automacro = {"Skald", "Transmuter", "Warper", "Arcane Marksman", "Enchanter", "Wizard", "Conjurer", "Summoner", "Necromancer", "Fire Elementalist", "Venom Mage", "Berserker", "Ice Elementalist", "Earth Elementalist", "Air Elementalist"}
+
 :local automacro = true
-:if you.turns() > 0 and (you.skill("Spellcasting") > 1 or you.class() == "Berserker")  then
+:if you.turns() > 0 and has_value(has_automacro, you.class())  then
 :	if crawl.yesno("Do you want to apply automacro?", true, "n") then
 :		automacro = true
 :		else

@@ -108,6 +108,7 @@ more += Your body armour is too heavy
 #############################
 
 # Bad things happening to you
+more += the acid corrodes you
 more += corrodes your equipment
 more += Your corrosive artefact corrodes you
 more += are blown away by the wind

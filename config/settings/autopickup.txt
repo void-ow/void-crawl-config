@@ -28,7 +28,7 @@ ae += <dangerous_item
 # [ = armour
 
 # Greedy autopickup
-autopickup += $?!:"/%}
+autopickup = $?!:"/%}
 
 # Add staves if you're a mage
 : if you.skill("Spellcasting") >= 3 then

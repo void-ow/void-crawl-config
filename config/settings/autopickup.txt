@@ -726,7 +726,7 @@ add_autopickup_func(function(it, name)
 		end
 		-- Handle M & F
 		if main:find("mf") then
-			if weapon_name:find("club") then
+			if weapon_name:find("club") and not weapon_name:find("giant") then
 				if name:find("club") then
 					if it.branded and weapon.plus <= 4  then
 						return true
@@ -806,7 +806,7 @@ add_autopickup_func(function(it, name)
 					return true
 				end
 			end
-			if weapon_name:find("flail") then
+			if weapon_name:find("flail") and not weapon_name:find("dire") then
 				if name:find("flail") then
 					if it.branded and weapon.plus <= 4  then
 						return true
@@ -862,8 +862,10 @@ add_autopickup_func(function(it, name)
 			end
 			if can_th == true then
 				if weapon_name:find("club") or weapon_name:find("whip") or weapon_name:find("mace") or weapon_name:find("flail") or weapon_name:find("morningstar") or weapon_name:find("demon whip") then
-					if name:find("dire flail") or name:find("great mace") then
-						return true
+					if not name:find("giant") then
+					    if name:find("dire flail") or name:find("great mace") then
+						    return true
+					    end
 					end
 				end
 				if weapon_name:find("sacred scourge") or weapon_name:find("eveningstar") then

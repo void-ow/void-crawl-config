@@ -32,7 +32,7 @@ autopickup = $?!:"/%}
 
 # Add staves if you're a mage
 : if you.skill("Spellcasting") >= 3 then
-autopickup += |
+autopickup = $?!:"/%}|
 : end
 
 # Don't ever pick this shit up
@@ -47,7 +47,7 @@ end)
 }
 
 # Don't pick up shit wands after xl 10
-# They won't be effective anyway
+# They won't be effective anyway, unless you're putting them points into Evo, in which case sure
 {
 add_autopickup_func(function(it, name)
 if you.xl() >= 10 and you.skill("Evocations") <= 2 then
@@ -60,15 +60,6 @@ if you.xl() >= 10 and you.skill("Evocations") <= 2 then
 end
 end)
 }
-
-# I'm pretty sure someone fucked it up in defaults
-: add_autopickup_func(function (it, name)
-:         if you.god() == "Trog" then
-:             if it.class(true) == "book" and not it.name():find("manual") then
-:                 return false
-:             end
-:         end
-: end)
 
 # Autopickup artefacts
 ae += <artefact

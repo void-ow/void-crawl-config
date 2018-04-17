@@ -892,6 +892,25 @@ add_autopickup_func(function(it, name)
 						end
 					end
 				end
+				if weapon_name:find("giant club") then
+					if name:find("giant club") then
+						if it.branded and weapon.plus <= 4 then
+							return true
+						end
+					end
+					if name:find("giant spiked club") then
+						if it.branded or weapon.plus <= 2 then
+							return true
+						end
+					end
+				end
+				if weapon_name:find("giant spiked club") then
+					if name:find("giant spiked club") then
+						if it.branded and weapon.plus <= 4 then
+							return true
+						end
+					end
+				end
 			end
 		end
 		-- Handle Polearms
